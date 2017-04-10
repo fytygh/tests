@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模仿什么巴士</title>
+    <link rel="stylesheet" href="css/default.css">
+    <style>
+        #app{height: 100%;}
+        header{position: fixed;top:0;left:0;right:0;z-index: 999;height: 50px;line-height: 50px;padding: 0 20px;box-shadow: 0 0px 5px #efefef;background-color: #6cf}
+        header nav {display: flex}
+        header nav .nav-menu{flex:9;display: flex}
+        header nav .nav-item{flex:1;}
+        header nav .nav-more{position: relative;flex:1;text-align: right}
+        header nav .nav-more:before{content: '';position: absolute;top:25%;left:0;width: 2px;height:50%;border-radius: 100%;background-color: rgba(162, 162, 162, 0.4);transform: scaleX(0.6)}
+        header nav a{padding:4px 18px;border-radius: 15px;}
+        header nav .router-link-active{box-shadow: 0 2px 3px rgba(65, 126, 157, 0.35);background-color: #7ef}
+
+        .container{min-height:100%;margin-top:50px;background-color: #fff}
+
+        #loadcover{position: fixed;top:0;left:0;width: 100%;height:100%;z-index: 1000;background-color: #efefef}
+        #loadcover span{position: absolute;top:0;bottom:0;left:0;right:0;margin: auto;width: 6em;height: 1.5em;text-shadow:0 0 1px rgba(0, 0, 0, 0.25);white-space: nowrap;animation: fadeIn 1s forwards ease-in}
+
+        /*动画*/
+        .slide-enter-active{ transition: all .3s }
+        .slide-enter{ opacity: 0; transform: translateX(20px); }
+
+        @keyframes fadeIn {
+            0%{opacity: 0}
+            100%{opacity: 1}
+        }
+    </style>
+</head>
+<body>
+    <!-- 主界面 -->
+    <div id="app">
+        <!-- 加载动画 -->
+        <div id="loadcover">
+            <span>
+                {{fadeIn}}
+            </span>
+        </div>
+        <header>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <router-link to="/bus">上下班</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/company">企业班车</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/character">包车</router-link>
+                    </li>
+                </ul>
+                <div class="nav-more">
+                    <router-link to="/more">更多</router-link>
+                </div>
+            </nav>
+        </header>
+        <transition name="slide" mode="out-in">
+            <router-view class="container"></router-view>
+        </transition>
+    </div>
+    <script type="text/x-template" id="bus">
+        <div>上下班</div>
+    </script>
+    <script type="text/x-template" id="company">
+        <div>企业班车</div>
+    </script>
+    <script type="text/x-template" id="character">
+        <div>包车</div>
+    </script>
+    <script type="text/x-template" id="more">
+        <div>更多</div>
+    </script>
+</body>
+<script src='js/vue.js'></script>
+<script src='js/vue-router.js'></script>
+<script type="text/javascript">
+    const bus = {template:'#bus'}
+    const company = {template:'#company'}
+    const character = {template:'#character'}
+    const more = {template:'#more'}
+
+    const routes = [
+        { path:'/company',component:company },
+        { path:'/character',component:character },
+        { path:'/more',component:more },
+        { path:'*',component:bus }
+    ]
+
+    const router = new VueRouter({
+        routes
+    })
+
+    const app = new Vue({
+        router,
+        data:{
+            loadmsg:"努力加载中...",
+            count:0
+        },
+        computed:{
+            fadeIn:function(){
+                let _this = this
+                setTimeout(function(){
+                    if(_this.count <= _this.loadmsg.length){
+                        _this.count++
+                    }else{
+                        _this.count = 0
+                    }
+                },300)
+                return this.loadmsg.slice(0,this.count)
+            }
+        }
+    }).$mount('#app')
+
+    var loadcover = document.getElementById('loadcover')
+    window.onload = function(){
+        loadcover.style.display = 'none'
+    }
+</script>
+</html>

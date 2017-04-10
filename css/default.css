@@ -1,0 +1,5 @@
+html,body{height: 100%;}
+article, aside, blockquote, body, button, code, dd, div, dl, dt, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, input, legend, li, menu, nav, ol, p, pre, section, td, textarea, th, ul { margin: 0; padding: 0; -webkit-touch-callout: none; }
+li{list-style: none}
+body{position: relative;max-width: 640px;min-height: 100%;margin: 0 auto !important;padding: 0;font-family: '微软雅黑';line-height: 1.5;font-size: 16px;letter-spacing: -.05em;background-color: #efefef}
+a,a:link,a:active,a:hover{color:#333;text-decoration:none}
